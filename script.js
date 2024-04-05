@@ -1,3 +1,6 @@
+let playerScore = 0;
+let computerScore = 0;
+
 const getcomputerSelection = () => {
     // Create an array of objects that the 'computer' uses
     const choices = ['rock', 'paper', 'scissors']
@@ -13,7 +16,7 @@ const getcomputerSelection = () => {
 }
 console.log(getcomputerSelection())
 
-const playerSelection = prompt();
+// const playerSelection = prompt();
 const computerSelection = getcomputerSelection();
 
 const playRound = (playerSelection, computerSelection) => {
@@ -41,12 +44,69 @@ const playRound = (playerSelection, computerSelection) => {
  
     return `You played ${playerSelection} and the computer played ${computerSelection}.`;
 }
-console.log(playRound(playerSelection, computerSelection));
+// console.log(playRound(playerSelection, computerSelection));
 
-// const playGame = () => {
-//     playRound()
-//     playRound()
-//     playRound()
-//     playRound()
-//     playRound()
-// }
+const createButton = (text) => {
+    const button = document.createElement('button');
+    button.textContent = text;
+    return button;
+}
+
+const btnRock = createButton('Rock');
+const btnPaper = createButton('Paper');
+const btnScissors = createButton('Scissors');
+
+document.body.appendChild(btnRock);
+document.body.appendChild(btnPaper);
+document.body.appendChild(btnScissors);
+
+btnRock.addEventListener('click', () => {
+    const result =  playRound("rock", getcomputerSelection);
+    console.log(result)
+    if (result.startsWith('You Win!')) {
+        playerScore++;
+    }
+    scoreBoard(playerScore, computerScore);
+})
+
+btnPaper.addEventListener('click', () => {
+    const result =  playRound("paper", getcomputerSelection);
+    console.log(result)
+    if (result.startsWith('You Win!')) {
+        playerScore++;
+    }
+    scoreBoard(playerScore, computerScore);
+})
+
+
+btnScissors.addEventListener('click', () => {
+    const result =  playRound("scissors", getcomputerSelection);
+    console.log(result)
+    if (result.startsWith('You Win!')) {
+        playerScore++;
+    }
+    scoreBoard(playerScore, computerScore);
+})
+
+const container = document.createElement('div');
+document.body.appendChild(container);
+
+container.appendChild(btnRock)
+container.appendChild(btnPaper)
+container.appendChild(btnScissors)
+
+const scoreBoard = (playerScore, computerScore) => {
+    const div = document.createElement('div');
+    div.id = "score-board";
+    container.appendChild(div);
+
+    const playerScoreSpan = document.createElement("span");
+    playerScoreSpan.id = 'player-score';
+    playerScoreSpan.textContent = `Player: ${playerScore}`;
+    div.appendChild(playerScoreSpan);
+
+    const computerScoreSpan = document.createElement("span");
+    computerScoreSpan.id = 'computer-score';
+    computerScoreSpan.textContent = `Computer: ${computerScore}`
+    div.appendChild(computerScoreSpan)
+}
