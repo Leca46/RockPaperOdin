@@ -61,29 +61,42 @@ document.body.appendChild(btnPaper);
 document.body.appendChild(btnScissors);
 
 btnRock.addEventListener('click', () => {
-    const result =  playRound("rock", getcomputerSelection);
+    const computerSelection = getcomputerSelection();
+    const result =  playRound("rock", computerSelection);
     console.log(result)
     if (result.startsWith('You Win!')) {
         playerScore++;
     }
+    if (result.startsWith('You Lose!')) {
+        computerScore++
+    }
     scoreBoard(playerScore, computerScore);
 })
 
+
 btnPaper.addEventListener('click', () => {
-    const result =  playRound("paper", getcomputerSelection);
+    const computerSelection = getcomputerSelection();
+    const result =  playRound("paper", computerSelection);
     console.log(result)
     if (result.startsWith('You Win!')) {
         playerScore++;
+    }
+    if (result.startsWith('You Lose!')) {
+        computerScore++
     }
     scoreBoard(playerScore, computerScore);
 })
 
 
 btnScissors.addEventListener('click', () => {
-    const result =  playRound("scissors", getcomputerSelection);
+    const computerSelection = getcomputerSelection();
+    const result =  playRound("scissors", computerSelection);
     console.log(result)
     if (result.startsWith('You Win!')) {
         playerScore++;
+    }
+    if (result.startsWith('You Lose!')) {
+        computerScore++
     }
     scoreBoard(playerScore, computerScore);
 })
@@ -96,17 +109,31 @@ container.appendChild(btnPaper)
 container.appendChild(btnScissors)
 
 const scoreBoard = (playerScore, computerScore) => {
-    const div = document.createElement('div');
-    div.id = "score-board";
-    container.appendChild(div);
+    const div = document.getElementById("score-board");
+    if (!div) {
+        const newDiv = document.createElement('div');
+        newDiv.id = "score-board";
+        container.appendChild(newDiv);
 
-    const playerScoreSpan = document.createElement("span");
-    playerScoreSpan.id = 'player-score';
-    playerScoreSpan.textContent = `Player: ${playerScore}`;
-    div.appendChild(playerScoreSpan);
+        const playerScoreSpan = document.createElement("span");
+        playerScoreSpan.id = 'player-score';
+        playerScoreSpan.textContent = `Player: ${playerScore}`;
+        newDiv.appendChild(playerScoreSpan);
 
-    const computerScoreSpan = document.createElement("span");
-    computerScoreSpan.id = 'computer-score';
-    computerScoreSpan.textContent = `Computer: ${computerScore}`
-    div.appendChild(computerScoreSpan)
+        const computerScoreSpan = document.createElement("span");
+        computerScoreSpan.id = 'computer-score';
+        computerScoreSpan.textContent = ` Computer: ${computerScore}`
+        newDiv.appendChild(computerScoreSpan);
+    } else {
+        const playerScoreSpan = document.getElementById('player-score');
+        playerScoreSpan.textContent = `Player: ${playerScore}`;
+
+        const computerScoreSpan = document.getElementById('computer-score');
+        computerScoreSpan.textContent = ` Computer: ${computerScore}`;
+    }
+
+    if (playerScore === 5 || computerScore === 5) {
+        const winner = playerScore > computerScore? "Player" : "Computer";
+        alert(`${winner} has won the game!`);
+    }
 }
